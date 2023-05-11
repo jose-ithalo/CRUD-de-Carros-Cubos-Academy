@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { knex } from "../bancoDados/conexao";
+import { Carro } from "../tipos";
 
 export const listarCarros = async (req: Request, res: Response): Promise<Response> => {
 
     try {
 
-        const listaCarros: object[] = await knex('carrs');
+        const listaCarros: Carro[] = await knex('carrs');
 
         return res.status(200).json(listaCarros);
 
@@ -15,7 +16,25 @@ export const listarCarros = async (req: Request, res: Response): Promise<Respons
 
 }
 
-export const cadastrarCarros = (req: Request, res: Response) => {
+export const cadastrarCarros = async (req: Request, res: Response): Promise<Response> => {
+
+    const { marca, modelo, ano, cor, valor } = req.body;
+
+    try {
+
+        const novoCarro = await knex<Omit<Carro, 'id'>>('carros').insert({
+            marca,
+            modelo,
+            ano,
+            cor,
+            valor
+        }).returning('*');
+
+        return res.status(201).json(novoCarro[0]);
+
+    } catch {
+        return res.status(500).json({ menssagem: 'Erro interno do Servidor ☠' });
+    }
 
 }
 
