@@ -3,6 +3,7 @@ import {
     atualizarCarros,
     cadastrarCarros,
     detalharCarros,
+    excluirCarros,
     listarCarros
 } from './controladores/carros';
 
@@ -15,5 +16,7 @@ rotas.post('/carros', cadastrarCarros);
 rotas.get('/carros/:id', detalharCarros);
 
 rotas.put('/carros/:id', atualizarCarros);
+
+rotas.delete('/carros/:id', excluirCarros);
 
 export default rotas
