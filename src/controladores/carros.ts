@@ -6,7 +6,7 @@ export const listarCarros = async (req: Request, res: Response): Promise<Respons
 
     try {
 
-        const listaCarros: Carro[] = await knex('carrs');
+        const listaCarros: Carro[] = await knex('carros');
 
         return res.status(200).json(listaCarros);
 
@@ -38,7 +38,23 @@ export const cadastrarCarros = async (req: Request, res: Response): Promise<Resp
 
 }
 
-export const detalharCarros = (req: Request, res: Response) => {
+export const detalharCarros = async (req: Request, res: Response) => {
+
+    const { id } = req.params;
+
+    try {
+
+        const carroEscolhido = await knex<Carro>('carros').where({ id: Number(id) }).first();
+
+        if (!carroEscolhido) {
+            return res.status(404).json('Carro não encontrado.');
+        }
+
+        return res.status(200).json(carroEscolhido);
+
+    } catch {
+        return res.status(500).json({ menssagem: 'Erro interno do Servidor ☠' });
+    }
 
 }
 
