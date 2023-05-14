@@ -10,4 +10,4 @@ Nele é permitido executar as quatro  operações básicas:
 + Atualizar um carro escolhido
 + Excluir um carro 
 
-**A transpilação de todo código é feita para JavaScript**.
+**A transpilação de todo código TypeScript é feita para JavaScript**.
